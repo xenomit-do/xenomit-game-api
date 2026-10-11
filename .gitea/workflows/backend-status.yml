@@ -1,0 +1,36 @@
+name: Backend coverage
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - README.md
+      - docs/backend-status.svg
+
+permissions:
+  contents: write
+
+jobs:
+  coverage:
+    if: ${{ !contains(gitea.event.head_commit.message, '[skip ci]') }}
+    runs-on: xenomit
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Render backend coverage
+        run: python3 scripts/backend_status.py
+      - name: Commit updated graphic
+        run: |
+          if git diff --quiet -- README.md docs/backend-status.svg; then
+            exit 0
+          fi
+          git add README.md docs/backend-status.svg
+          git -c user.name='gitea-actions' -c user.email='actions@xenomit.local' commit -m "Update backend coverage graphic [skip ci]"
+          git push origin HEAD:main

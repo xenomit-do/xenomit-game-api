@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1126" height="660" viewBox="0 0 1126 660" role="img">
+<title>Backend coverage</title>
+<desc>Green cells are implemented GameClient paths. Gray cells are unsupported.</desc>
+<rect width="1126" height="660" fill="#101216"/>
+<text x="36" y="52" fill="#F4F7FB" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="600">Status</text>
+<line x1="36" y1="70" x2="1090" y2="70" stroke="#2C3340" stroke-width="1"/>
+<rect x="36.0" y="90" width="75.0" height="32" rx="7" fill="#2A303A"/>
+<text x="73.5" y="111" text-anchor="middle" fill="#F4F7FB" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14">state*</text>
+<rect x="115.0" y="90" width="51.5" height="32" rx="7" fill="#3DDC84"/>
+<text x="140.8" y="111" text-anchor="middle" fill="#101216" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700">90%</text>
+<text x="174.6" y="111" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14">27/30</text>
+<rect x="241.8" y="90" width="98.6" height="32" rx="7" fill="#2A303A"/>
+<text x="291.0" y="111" text-anchor="middle" fill="#F4F7FB" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14">commands*</text>
+<rect x="344.3" y="90" width="59.4" height="32" rx="7" fill="#3DDC84"/>
+<text x="374.0" y="111" text-anchor="middle" fill="#101216" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700">100%</text>
+<text x="411.7" y="111" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14">25/25</text>
+<text x="36" y="184" fill="#F4F7FB" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600">Ruffle native</text>
+<text x="234" y="184" text-anchor="end" fill="#3DDC84" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13">11/11</text>
+<g>
+<title>Ruffle native — Status — implemented</title>
+<rect x="46.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="73.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">status</text>
+</g>
+<g>
+<title>Ruffle native — Ping — implemented</title>
+<rect x="108.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="135.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">ping</text>
+</g>
+<g>
+<title>Ruffle native — Snapshot — implemented</title>
+<rect x="170.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="197.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">snapshot</text>
+</g>
+<g>
+<title>Ruffle native — Reflected snapshot — implemented</title>
+<rect x="46.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="73.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">reflected</text>
+</g>
+<g>
+<title>Ruffle native — Live frame — implemented</title>
+<rect x="108.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="135.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">frame</text>
+</g>
+<g>
+<title>Ruffle native — Navigation — implemented</title>
+<rect x="170.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="197.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">navigation</text>
+</g>
+<g>
+<title>Ruffle native — Inspect — implemented</title>
+<rect x="46.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="73.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">inspect</text>
+</g>
+<g>
+<title>Ruffle native — Invoke — implemented</title>
+<rect x="108.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="135.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">invoke</text>
+</g>
+<g>
+<title>Ruffle native — Commands — implemented</title>
+<rect x="170.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="197.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">commands</text>
+</g>
+<g>
+<title>Ruffle native — Features — implemented</title>
+<rect x="46.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="73.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">features</text>
+</g>
+<g>
+<title>Ruffle native — Events — implemented</title>
+<rect x="108.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="135.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">events</text>
+</g>
+<text x="250" y="184" fill="#F4F7FB" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600">Ruffle legacy</text>
+<text x="448" y="184" text-anchor="end" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13">9/11</text>
+<g>
+<title>Ruffle legacy — Status — implemented</title>
+<rect x="260.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="287.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">status</text>
+</g>
+<g>
+<title>Ruffle legacy — Ping — implemented</title>
+<rect x="322.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="349.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">ping</text>
+</g>
+<g>
+<title>Ruffle legacy — Snapshot — implemented</title>
+<rect x="384.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="411.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">snapshot</text>
+</g>
+<g>
+<title>Ruffle legacy — Reflected snapshot — implemented</title>
+<rect x="260.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="287.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">reflected</text>
+</g>
+<g>
+<title>Ruffle legacy — Live frame — unsupported</title>
+<rect x="322.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#586270"/>
+<text x="349.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">frame</text>
+</g>
+<g>
+<title>Ruffle legacy — Navigation — unsupported</title>
+<rect x="384.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#586270"/>
+<text x="411.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">navigation</text>
+</g>
+<g>
+<title>Ruffle legacy — Inspect — implemented</title>
+<rect x="260.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="287.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">inspect</text>
+</g>
+<g>
+<title>Ruffle legacy — Invoke — implemented</title>
+<rect x="322.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="349.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">invoke</text>
+</g>
+<g>
+<title>Ruffle legacy — Commands — implemented</title>
+<rect x="384.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="411.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">commands</text>
+</g>
+<g>
+<title>Ruffle legacy — Features — implemented</title>
+<rect x="260.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="287.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">features</text>
+</g>
+<g>
+<title>Ruffle legacy — Events — implemented</title>
+<rect x="322.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="349.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">events</text>
+</g>
+<text x="464" y="184" fill="#F4F7FB" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600">Flash ActiveX</text>
+<text x="662" y="184" text-anchor="end" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13">10/11</text>
+<g>
+<title>Flash ActiveX — Status — implemented</title>
+<rect x="474.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="501.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">status</text>
+</g>
+<g>
+<title>Flash ActiveX — Ping — implemented</title>
+<rect x="536.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="563.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">ping</text>
+</g>
+<g>
+<title>Flash ActiveX — Snapshot — implemented</title>
+<rect x="598.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="625.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">snapshot</text>
+</g>
+<g>
+<title>Flash ActiveX — Reflected snapshot — implemented</title>
+<rect x="474.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="501.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">reflected</text>
+</g>
+<g>
+<title>Flash ActiveX — Live frame — unsupported</title>
+<rect x="536.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#586270"/>
+<text x="563.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">frame</text>
+</g>
+<g>
+<title>Flash ActiveX — Navigation — implemented</title>
+<rect x="598.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="625.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">navigation</text>
+</g>
+<g>
+<title>Flash ActiveX — Inspect — implemented</title>
+<rect x="474.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="501.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">inspect</text>
+</g>
+<g>
+<title>Flash ActiveX — Invoke — implemented</title>
+<rect x="536.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="563.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">invoke</text>
+</g>
+<g>
+<title>Flash ActiveX — Commands — implemented</title>
+<rect x="598.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="625.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">commands</text>
+</g>
+<g>
+<title>Flash ActiveX — Features — implemented</title>
+<rect x="474.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="501.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">features</text>
+</g>
+<g>
+<title>Flash ActiveX — Events — implemented</title>
+<rect x="536.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="563.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">events</text>
+</g>
+<text x="678" y="184" fill="#F4F7FB" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600">Flash Windows</text>
+<text x="876" y="184" text-anchor="end" fill="#3DDC84" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13">11/11</text>
+<g>
+<title>Flash Windows — Status — implemented</title>
+<rect x="688.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="715.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">status</text>
+</g>
+<g>
+<title>Flash Windows — Ping — implemented</title>
+<rect x="750.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="777.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">ping</text>
+</g>
+<g>
+<title>Flash Windows — Snapshot — implemented</title>
+<rect x="812.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="839.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">snapshot</text>
+</g>
+<g>
+<title>Flash Windows — Reflected snapshot — implemented</title>
+<rect x="688.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="715.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">reflected</text>
+</g>
+<g>
+<title>Flash Windows — Live frame — implemented</title>
+<rect x="750.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="777.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">frame</text>
+</g>
+<g>
+<title>Flash Windows — Navigation — implemented</title>
+<rect x="812.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="839.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">navigation</text>
+</g>
+<g>
+<title>Flash Windows — Inspect — implemented</title>
+<rect x="688.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="715.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">inspect</text>
+</g>
+<g>
+<title>Flash Windows — Invoke — implemented</title>
+<rect x="750.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="777.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">invoke</text>
+</g>
+<g>
+<title>Flash Windows — Commands — implemented</title>
+<rect x="812.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="839.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">commands</text>
+</g>
+<g>
+<title>Flash Windows — Features — implemented</title>
+<rect x="688.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="715.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">features</text>
+</g>
+<g>
+<title>Flash Windows — Events — implemented</title>
+<rect x="750.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="777.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">events</text>
+</g>
+<text x="892" y="184" fill="#F4F7FB" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600">Flash Linux</text>
+<text x="1090" y="184" text-anchor="end" fill="#3DDC84" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13">11/11</text>
+<g>
+<title>Flash Linux — Status — implemented</title>
+<rect x="902.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="929.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">status</text>
+</g>
+<g>
+<title>Flash Linux — Ping — implemented</title>
+<rect x="964.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="991.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">ping</text>
+</g>
+<g>
+<title>Flash Linux — Snapshot — implemented</title>
+<rect x="1026.0" y="214.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="1053.0" y="282.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">snapshot</text>
+</g>
+<g>
+<title>Flash Linux — Reflected snapshot — implemented</title>
+<rect x="902.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="929.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">reflected</text>
+</g>
+<g>
+<title>Flash Linux — Live frame — implemented</title>
+<rect x="964.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="991.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">frame</text>
+</g>
+<g>
+<title>Flash Linux — Navigation — implemented</title>
+<rect x="1026.0" y="295.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="1053.0" y="363.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">navigation</text>
+</g>
+<g>
+<title>Flash Linux — Inspect — implemented</title>
+<rect x="902.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="929.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">inspect</text>
+</g>
+<g>
+<title>Flash Linux — Invoke — implemented</title>
+<rect x="964.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="991.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">invoke</text>
+</g>
+<g>
+<title>Flash Linux — Commands — implemented</title>
+<rect x="1026.0" y="394.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="1053.0" y="462.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">commands</text>
+</g>
+<g>
+<title>Flash Linux — Features — implemented</title>
+<rect x="902.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="929.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">features</text>
+</g>
+<g>
+<title>Flash Linux — Events — implemented</title>
+<rect x="964.0" y="475.0" width="54.0" height="54.0" rx="4" fill="#3DDC84"/>
+<text x="991.0" y="543.0" text-anchor="middle" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11">events</text>
+</g>
+<rect x="36" y="564.0" width="12" height="12" rx="2" fill="#3DDC84"/>
+<text x="54" y="575.0" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12">implemented</text>
+<rect x="156" y="564.0" width="12" height="12" rx="2" fill="#586270"/>
+<text x="174" y="575.0" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12">unsupported</text>
+<text x="36" y="600.0" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12">* State is status, ping, snapshot, reflected snapshot, live frame, and navigation. Commands are inspect, invoke, manager commands, feature state, and</text>
+<text x="36" y="616.0" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12">events. Green is a working path in that backend. Gray is the trait default or an explicit unsupported result. Navigation is green when the snapshot</text>
+<text x="36" y="632.0" fill="#9AA3B2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12">keeps the client's NavigationState.</text>
+</svg>
