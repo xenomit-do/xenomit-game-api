@@ -189,7 +189,10 @@ mod tests {
     fn memory_status_does_not_touch_the_command_bridge() {
         let (mut client, transport) = client("OK dobot-bridge\n");
         client.memory_status = true;
-        assert!(matches!(client.snapshot(None), Err(ApiError::Unavailable(_))));
+        assert!(matches!(
+            client.snapshot(None),
+            Err(ApiError::Unavailable(_))
+        ));
         let status = client.status().expect("status");
         assert_eq!(status.backend, "flash_native_memory");
         assert!(!status.ready);
@@ -202,9 +205,7 @@ mod tests {
         let (client, transport) = client(&format!(
             "OK {{\"status\":\"ok\",\"name\":\"Map\",\"isClass\":false,\"qualified\":\"Map\",\"data\":{{\"observedAtUnixMs\":{now},\"observed_at_unix_ms\":{now},\"capabilities\":[\"events\"],\"events\":[],\"next_sequence\":0,\"dropped\":false}}}}\n"
         ));
-        client
-            .snapshot(Some("stage"))
-            .expect("reflected snapshot");
+        client.snapshot(Some("stage")).expect("reflected snapshot");
         client.inspect("stage").expect("inspect");
         client.feature_state().expect("features");
         client.poll_events(0).expect("events");

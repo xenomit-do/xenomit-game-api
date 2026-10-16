@@ -54,9 +54,22 @@ pub struct Obstacle {
     pub id: i32,
     pub name: String,
     pub shape: ObstacleShape,
+    /// Geometry class, when the client can distinguish it. Legacy zone
+    /// observations default to no-access geometry and remain fail-closed.
+    #[serde(default)]
+    pub kind: ObstacleKind,
     /// An inverted no-access zone bounds a playable interior.
     #[serde(default)]
     pub inverted: bool,
+}
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ObstacleKind {
+    #[default]
+    NoAccess,
+    Mine,
+    Cbs,
+    Radiation,
 }
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
@@ -93,6 +106,11 @@ pub struct GalaxyGateInfo {
 #[serde(default)]
 pub struct GroupState {
     pub members: Vec<GroupMemberInfo>,
+    /// `Some(false)` is an observed solo state; `None` is unknown.
+    pub active: Option<bool>,
+    pub leader_id: Option<i32>,
+    pub invites_open: Option<bool>,
+    pub pending_invites: Vec<GroupInvite>,
 }
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
@@ -101,6 +119,12 @@ pub struct GroupMemberInfo {
     pub name: String,
     pub map_id: i32,
     pub leader: bool,
+}
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct GroupInvite {
+    pub player_id: i32,
+    pub name: String,
 }
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct StarSystem {
@@ -241,6 +265,7 @@ mod native_navigation_tests {
                 center: Point { x: 2.0, y: 3.0 },
                 radius: 50.0,
             },
+            kind: ObstacleKind::NoAccess,
             inverted: true,
         });
         assert_eq!(
@@ -261,6 +286,11 @@ mod native_navigation_tests {
                 activate: false,
             },
             GameCommand::Revive { repair_type: 1 },
+            GameCommand::ReviveAt {
+                repair_type: 1,
+                location: crate::ReviveLocation::Base,
+            },
+            GameCommand::RepairDrones,
             GameCommand::SpinGalaxyGate {
                 gate_id: 1,
                 spin_amount: 5,
@@ -269,6 +299,10 @@ mod native_navigation_tests {
             GameCommand::PlaceGalaxyGate { gate_id: 1 },
             GameCommand::BuyGalaxyLife { gate_id: 1 },
             GameCommand::AcceptGroupInvite { inviter_id: 9 },
+            GameCommand::InviteGroupMember { player_id: 10 },
+            GameCommand::LeaveGroup,
+            GameCommand::KickGroupMember { player_id: 11 },
+            GameCommand::SetGroupInvites { open: true },
         ] {
             assert_eq!(
                 serde_json::from_value::<GameCommand>(serde_json::to_value(&command).unwrap())
@@ -601,6 +635,14 @@ pub enum GameCommand {
     Revive {
         repair_type: i32,
     },
+    /// Select a repair option only after its matching location is observed on
+    /// the current kill screen. A command cannot invent or purchase an offer.
+    ReviveAt {
+        repair_type: i32,
+        location: crate::ReviveLocation,
+    },
+    /// Repair drones using the game's currently available repair request.
+    RepairDrones,
     /// `GalaxyGateBuilderMultiEnergyRequest` — spin amount is 1, 5, 10, or 100.
     SpinGalaxyGate {
         gate_id: i32,
@@ -618,6 +660,16 @@ pub enum GameCommand {
     /// `InvitationAcceptRequest`. `inviter_id` is the inviting player's user id.
     AcceptGroupInvite {
         inviter_id: i32,
+    },
+    InviteGroupMember {
+        player_id: i32,
+    },
+    LeaveGroup,
+    KickGroupMember {
+        player_id: i32,
+    },
+    SetGroupInvites {
+        open: bool,
     },
 }
 
