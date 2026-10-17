@@ -2,10 +2,17 @@
 //! Calls use the Flash-owned UI thread; FINVOKE completes after ENTER_FRAME.
 use super::{BridgeTransport, Pipe, protocol, wire};
 use crate::model::{
-    ActionResult, ClientStatus, FunctionCall, GameClient, GameSnapshot, Inspection, StageInfo,
+    ActionResult, ClientStatus, FunctionCall, GameClient, GameSnapshot, Inspection, KeyAction,
+    MouseAction, StageInfo, WindowCommand,
 };
 use crate::{ApiError, GameCommand, Result};
+use serde_json::json;
 use std::sync::Arc;
+
+pub(crate) const EVENT_MANAGER: &str =
+    "net.bigpoint.darkorbit.managers.ScreenManager.getInstance().eventManager";
+pub(crate) const SHIP_MANAGER: &str =
+    "net.bigpoint.darkorbit.managers.ScreenManager.getInstance().map.getShipManager()";
 
 pub struct FlashClient {
     pipe: Pipe,
@@ -68,6 +75,55 @@ impl FlashClient {
             pipe: Pipe::new(transport),
         }
     }
+    /// Host control verbs added with the in-process host. Older hosts answer
+    /// `unknown command`, which is reported as Unavailable.
+    fn host_verb(&self, command: &str) -> Result<()> {
+        match self.pipe.command(command) {
+            Ok(_) => Ok(()),
+            Err(ApiError::Transport(message)) if message == "unknown command" => Err(
+                ApiError::Unavailable(format!("this Flash host does not support {command}")),
+            ),
+            Err(error) => Err(error),
+        }
+    }
+}
+
+/// Pipe verb for a window command; shared with the in-process exchange path.
+pub(crate) fn window_verb(command: &WindowCommand) -> String {
+    match command {
+        WindowCommand::Visible { visible } => format!("WINDOW {}", u8::from(*visible)),
+        WindowCommand::Position { x, y } => format!("WINDOW pos {x} {y}"),
+        WindowCommand::Size { width, height } => format!("WINDOW size {width} {height}"),
+        WindowCommand::ClientSize { width, height } => format!("WINDOW client {width} {height}"),
+        WindowCommand::MinClientSize { width, height } => {
+            format!("WINDOW minclient {width} {height}")
+        }
+        WindowCommand::Minimized { minimized } => {
+            format!("WINDOW minimize {}", u8::from(*minimized))
+        }
+        WindowCommand::Transparency { alpha } => format!("WINDOW alpha {alpha}"),
+        WindowCommand::MaxFps { fps } => format!("FPS {fps}"),
+        WindowCommand::Volume { percent } => format!("VOLUME {percent}"),
+        WindowCommand::Quality { quality } => format!("QUALITY {quality}"),
+        WindowCommand::UserInput { enabled } => format!("INPUT {}", u8::from(*enabled)),
+    }
+}
+
+pub(crate) fn key_verb(action: KeyAction) -> &'static str {
+    match action {
+        KeyAction::Down => "down",
+        KeyAction::Up => "up",
+        KeyAction::Click => "click",
+    }
+}
+
+pub(crate) fn mouse_verb(action: MouseAction) -> &'static str {
+    match action {
+        MouseAction::Move => "move",
+        MouseAction::Down => "down",
+        MouseAction::Up => "up",
+        MouseAction::Click => "click",
+    }
 }
 impl GameClient for FlashClient {
     fn feature_state(&self) -> Result<crate::ClientFeatureState> {
@@ -109,11 +165,58 @@ impl GameClient for FlashClient {
                 .in_frame(),
         )
     }
+    // Movement, deselect and collect-at use the same reflected calls the
+    // runtime executor sends today, so they work with every Flash host.
+    fn move_hero(&self, x: i32, y: i32) -> Result<ActionResult> {
+        self.call_function(
+            &FunctionCall::new(EVENT_MANAGER, "moveHeroToCordinates")
+                .with_arguments(vec![json!(x), json!(y)])
+                .in_frame(),
+        )
+    }
+    fn stop_hero(&self) -> Result<ActionResult> {
+        self.call_function(&FunctionCall::new(EVENT_MANAGER, "stopHero").in_frame())
+    }
+    fn select_target(&self, entity_id: i32, attack: bool) -> Result<ActionResult> {
+        self.call_function(
+            &FunctionCall::new("xenomit", "direct")
+                .with_arguments(vec![json!("select"), json!(entity_id), json!(attack)])
+                .in_frame(),
+        )
+    }
+    fn deselect_target(&self) -> Result<ActionResult> {
+        self.call_function(&FunctionCall::new(SHIP_MANAGER, "deselectSelectedShip"))
+    }
+    fn collect(&self, entity_id: i32, at: Option<(i32, i32)>) -> Result<ActionResult> {
+        let call = match at {
+            Some((x, y)) => FunctionCall::new(EVENT_MANAGER, "moveHeroToCordinates")
+                .with_arguments(vec![
+                    json!(x),
+                    json!(y),
+                    json!({"$xenomit_entity_id": entity_id}),
+                ]),
+            None => FunctionCall::new("xenomit", "direct")
+                .with_arguments(vec![json!("collect"), json!(entity_id)]),
+        };
+        self.call_function(&call.in_frame())
+    }
+    fn send_key(&self, virtual_key: u32, action: KeyAction) -> Result<()> {
+        self.host_verb(&format!("KEY {virtual_key} {}", key_verb(action)))
+    }
+    fn send_mouse(&self, action: MouseAction, x: i32, y: i32) -> Result<()> {
+        self.host_verb(&format!("MOUSE {} {x} {y}", mouse_verb(action)))
+    }
+    fn set_window(&self, command: WindowCommand) -> Result<()> {
+        self.host_verb(&window_verb(&command))
+    }
+    fn reload_client(&self) -> Result<()> {
+        self.host_verb("RELOAD")
+    }
 }
 
 // Expansion runs in the controller, avoiding repeated long field names and
 // XML escaping in Flash. Each payload carries its own bounded field dictionary.
-fn decode_snapshot(mut value: serde_json::Value) -> Result<GameSnapshot> {
+pub(crate) fn decode_snapshot(mut value: serde_json::Value) -> Result<GameSnapshot> {
     expand_packed_entities(&mut value)?;
     let envelope: wire::SnapshotEnvelope =
         serde_json::from_value(value).map_err(|e| ApiError::Protocol(e.to_string()))?;

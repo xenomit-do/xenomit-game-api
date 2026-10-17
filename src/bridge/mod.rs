@@ -6,6 +6,8 @@
 //! neither backend duplicates them.
 
 pub mod flash;
+pub(crate) mod flash_ffi;
+pub mod flash_inproc;
 pub mod flash_native;
 pub mod legacy;
 pub mod native;
@@ -14,6 +16,9 @@ mod transport;
 pub(crate) mod wire;
 
 pub use flash::FlashClient;
+pub use flash_inproc::{
+    FlashHostStatus, FlashInProcClient, FlashInProcConfig, FlashLogSink, set_flash_log_sink,
+};
 pub use flash_native::FlashNativeClient;
 pub use legacy::LegacyPipeClient;
 pub use native::NativeClient;
