@@ -81,6 +81,12 @@ pub mod entity_flags {
 pub mod hero_flags {
     pub const PRESENT: u32 = 1;
     pub const MOVING: u32 = 2;
+    /// `target_id` carries the selected (locked) entity id; 0 means none.
+    pub const TARGET: u32 = 4;
+    /// `attack_target_id` carries the hero's current attack target; 0 means none.
+    pub const ATTACK: u32 = 8;
+    /// `hero_speed` is meaningful.
+    pub const SPEED: u32 = 16;
 }
 
 /// Frame header, padded to [`HEADER_LEN`].
@@ -118,7 +124,13 @@ pub struct LiveHeader {
     /// JSON navigation/manager payload in the same bounded string table.
     pub navigation_off: u32,
     pub navigation_len: u32,
-    pub _reserved: [u8; 24],
+    /// Selected entity id; valid when [`hero_flags::TARGET`] is set.
+    pub target_id: i32,
+    /// Hero attack target (AttackerTrait); valid when [`hero_flags::ATTACK`] is set.
+    pub attack_target_id: i32,
+    /// Hero move speed; valid when [`hero_flags::SPEED`] is set.
+    pub hero_speed: i32,
+    pub _reserved: [u8; 12],
 }
 
 const _: () = assert!(size_of::<LiveHeader>() == HEADER_LEN);
@@ -149,7 +161,10 @@ impl Default for LiveHeader {
             navigation_revision: 0,
             navigation_off: 0,
             navigation_len: 0,
-            _reserved: [0; 24],
+            target_id: 0,
+            attack_target_id: 0,
+            hero_speed: 0,
+            _reserved: [0; 12],
         }
     }
 }

@@ -24,8 +24,9 @@ pub mod model;
 pub mod navigation;
 pub mod star_map;
 pub use navigation::{
-    GalaxyGateInfo, GameCommand, GroupMemberInfo, GroupState, HeroState, ItemState, MapDescriptor,
-    MapLink, NavigationState, Obstacle, ObstacleShape, PortalInfo, StarSystem,
+    GalaxyGateInfo, GameCommand, GroupInvite, GroupMemberInfo, GroupState, HeroState, ItemState,
+    MapDescriptor, MapLink, NavigationState, Obstacle, ObstacleKind, ObstacleShape, PortalInfo,
+    StarSystem,
 };
 
 pub use behavior::{

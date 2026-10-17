@@ -634,6 +634,41 @@ unsafe fn read_into_at(base: *const u8, len: usize, frame: &mut LiveFrame) -> bo
                     faction: header.hero_faction,
                     clan: header.hero_clan,
                 });
+            // Native hot state is authoritative and fresher than the
+            // navigation bridge: publish it as the hero's manager fields.
+            if header.hero_flags
+                & (layout::hero_flags::TARGET
+                    | layout::hero_flags::ATTACK
+                    | layout::hero_flags::SPEED)
+                != 0
+            {
+                let fields = frame
+                    .navigation
+                    .entity_fields
+                    .entry(header.hero_id)
+                    .or_default();
+                let mut set = |flag: u32, key: &str, value: i32| {
+                    if header.hero_flags & flag == 0 {
+                        return;
+                    }
+                    if value > 0 || key == "speed" {
+                        fields.insert(key.into(), Value::from(value));
+                    } else {
+                        fields.remove(key);
+                    }
+                };
+                set(
+                    layout::hero_flags::TARGET,
+                    "localTargetId",
+                    header.target_id,
+                );
+                set(
+                    layout::hero_flags::ATTACK,
+                    "attackingTargetId",
+                    header.attack_target_id,
+                );
+                set(layout::hero_flags::SPEED, "speed", header.hero_speed);
+            }
             return true;
         }
     }
@@ -762,7 +797,11 @@ mod imp {
         };
         use windows_sys::Win32::System::Memory::{CreateFileMappingW, PAGE_READONLY};
 
-        let wide: Vec<u16> = path.as_os_str().encode_wide().chain(std::iter::once(0)).collect();
+        let wide: Vec<u16> = path
+            .as_os_str()
+            .encode_wide()
+            .chain(std::iter::once(0))
+            .collect();
         let meta = std::fs::metadata(path).map_err(|error| {
             ApiError::Transport(format!("frame file {}: {error}", path.display()))
         })?;
@@ -794,7 +833,14 @@ mod imp {
         }
         // SAFETY: file is a valid handle. The mapping is closed with the view.
         let mapping = unsafe {
-            CreateFileMappingW(file, std::ptr::null(), PAGE_READONLY, 0, 0, std::ptr::null())
+            CreateFileMappingW(
+                file,
+                std::ptr::null(),
+                PAGE_READONLY,
+                0,
+                0,
+                std::ptr::null(),
+            )
         };
         unsafe { CloseHandle(file) };
         if mapping.is_null() {

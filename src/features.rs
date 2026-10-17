@@ -81,6 +81,86 @@ pub struct ClientFeatureState {
     /// until the backend has seen a booster update; `Some(vec![])` means none
     /// are active.
     pub boosters: Option<Vec<BoosterState>>,
+    /// Key-to-item mapping observed from the live slot bar. `None` means the
+    /// backend has not observed a slot bar; an empty list means it was seen
+    /// and contained no usable slots.
+    pub slot_bar: Option<Vec<SlotBarItem>>,
+    /// Repair offers currently shown on the kill screen. This is deliberately
+    /// separate from legacy `free_repair_type`, which only represents the
+    /// known free base repair offer.
+    pub revive_options: Option<Vec<ReviveOption>>,
+    /// Repair item inventory, when the client exposes it.
+    pub repair_inventory: Option<RepairInventory>,
+    /// Per-ship abilities and their observed readiness.
+    pub abilities: Option<Vec<AbilityReadiness>>,
+    /// Drone health/damage observation. Unknown fields remain `None`.
+    pub drones: Option<DroneState>,
+    pub group: Option<crate::GroupState>,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct SlotBarItem {
+    /// One-character key (`"2"`) or a named key (`"F1"`, `"Enter"`).
+    pub key: String,
+    pub item_id: String,
+    pub category: Option<String>,
+    pub quantity: Option<f64>,
+    pub available: Option<bool>,
+    pub activatable: Option<bool>,
+}
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ReviveLocation {
+    Base,
+    Portal,
+    Spot,
+    /// The client reported a revive option but could not identify its location.
+    /// Keeping this explicit prevents unknown menu entries from being selected
+    /// as a base repair by the safety planner.
+    #[default]
+    Unknown,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct ReviveOption {
+    pub repair_type: i32,
+    pub location: ReviveLocation,
+    pub visible: bool,
+    pub free: bool,
+    pub affordable: bool,
+    pub cooldown_ms: Option<u64>,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct RepairInventory {
+    pub instant_repair: Option<f64>,
+    /// Item identity when the client can map its repair counter to an item.
+    /// The engine will not guess an item from a display name.
+    pub instant_repair_item_id: Option<String>,
+    pub drone_repair: Option<f64>,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct AbilityReadiness {
+    pub item_id: String,
+    pub ready: Option<bool>,
+    pub cooldown_ms: Option<u64>,
+    pub min_distance: Option<f64>,
+    pub max_distance: Option<f64>,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct DroneState {
+    pub observed: bool,
+    pub count: Option<u32>,
+    pub damaged: Option<u32>,
+    pub health_percent: Option<f64>,
 }
 
 /// One active booster category, as the booster window summarises it.
@@ -269,5 +349,18 @@ mod tests {
         let pet: PetFeatureState = serde_json::from_str("{}").unwrap();
         assert_eq!(pet.owned, None);
         assert_eq!(pet.health, None);
+    }
+
+    #[test]
+    fn revive_offer_without_location_stays_unknown() {
+        let offer: ReviveOption = serde_json::from_value(serde_json::json!({
+            "repair_type": 2,
+            "visible": true,
+            "free": true,
+            "affordable": true
+        }))
+        .unwrap();
+        assert_eq!(offer.location, ReviveLocation::Unknown);
+        assert_eq!(ReviveLocation::default(), ReviveLocation::Unknown);
     }
 }

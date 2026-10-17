@@ -122,6 +122,27 @@ use stage pixels, while world coordinates remain in `GameEntity::fields`.
 Common health, shield, and identifier aliases are normalized; all original
 bridge fields are also retained in `GameEntity::fields`.
 
+### Supplementary observations and commands
+
+`GameClient::feature_state()` returns timestamped optional observations for the
+slot bar, revive offers, repair inventory, ability readiness, drone condition,
+group state, PET, gate, event, booster, and economy data. `None` means the
+client has not observed that feature; an empty vector means it observed the
+feature and found no entries. Missing, malformed, or stale responses return an
+error instead of fabricating a default observation. In particular, a revive
+offer with no known location deserializes as `ReviveLocation::Unknown`.
+
+`GameClient::poll_events(after_sequence)` exposes a bounded replay journal for
+game log and event consumers. Each caller owns its cursor; duplicate messages
+remain separate events, and `dropped` reports when the requested history has
+fallen out of the bounded journal.
+
+`GameCommand` provides typed requests for movement, items, PET, configurations,
+revival, drone repair, group management, gate actions, and ore refining/sale.
+Adapters return `ApiError::Unavailable` when they cannot safely observe or
+perform a request. A successful submission only confirms that the client
+accepted the request; callers should observe game state to confirm its result.
+
 ## Behavior engine boundary
 
 Desktop controllers can pass `Arc<dyn GameClient>` and a `ModuleConfig` to a
