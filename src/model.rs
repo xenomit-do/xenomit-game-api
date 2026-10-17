@@ -78,6 +78,118 @@ pub trait GameClient: Send + Sync {
     fn read_live_frame(&self, _frame: &mut crate::live::LiveFrame) -> bool {
         false
     }
+
+    // Direct interactions (InProcessPlayer moveShip/selectEntity/collectBox).
+    // They run the game's own manager methods in the next frame and return
+    // the real ActionScript result. Unsupported backends report Unavailable.
+
+    /// Move the hero to world coordinates.
+    fn move_hero(&self, _x: i32, _y: i32) -> Result<ActionResult> {
+        Err(unsupported("direct movement"))
+    }
+    /// Stop the hero's current movement.
+    fn stop_hero(&self) -> Result<ActionResult> {
+        Err(unsupported("direct movement"))
+    }
+    /// Lock an entity by ID; `attack` also starts the laser attack.
+    fn select_target(&self, _entity_id: i32, _attack: bool) -> Result<ActionResult> {
+        Err(unsupported("direct target selection"))
+    }
+    /// Release the locked target.
+    fn deselect_target(&self) -> Result<ActionResult> {
+        Err(unsupported("direct target selection"))
+    }
+    /// Move to `at` (or the entity itself) and collect the entity there.
+    fn collect(&self, _entity_id: i32, _at: Option<(i32, i32)>) -> Result<ActionResult> {
+        Err(unsupported("direct collection"))
+    }
+    /// Keyboard input delivered to the game window (hotkeys).
+    fn send_key(&self, _virtual_key: u32, _action: KeyAction) -> Result<()> {
+        Err(unsupported("keyboard input"))
+    }
+    /// Mouse input in game-window client coordinates.
+    fn send_mouse(&self, _action: MouseAction, _x: i32, _y: i32) -> Result<()> {
+        Err(unsupported("mouse input"))
+    }
+    /// Game window and rendering controls.
+    fn set_window(&self, _command: WindowCommand) -> Result<()> {
+        Err(unsupported("window control"))
+    }
+    /// Reload the game movie without restarting the client.
+    fn reload_client(&self) -> Result<()> {
+        Err(unsupported("client reload"))
+    }
+}
+
+fn unsupported(what: &str) -> crate::ApiError {
+    crate::ApiError::Unavailable(format!("{what} is unsupported by this client"))
+}
+
+/// Keyboard action for [`GameClient::send_key`].
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum KeyAction {
+    Down,
+    Up,
+    Click,
+}
+
+/// Mouse action for [`GameClient::send_mouse`].
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum MouseAction {
+    Move,
+    Down,
+    Up,
+    Click,
+}
+
+/// Window and rendering commands (InProcessPlayer's window/handler surface).
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "command", rename_all = "snake_case")]
+pub enum WindowCommand {
+    Visible {
+        visible: bool,
+    },
+    Position {
+        x: i32,
+        y: i32,
+    },
+    Size {
+        width: i32,
+        height: i32,
+    },
+    ClientSize {
+        width: i32,
+        height: i32,
+    },
+    MinClientSize {
+        width: i32,
+        height: i32,
+    },
+    Minimized {
+        minimized: bool,
+    },
+    /// 0..=255; 255 is opaque.
+    Transparency {
+        alpha: u8,
+    },
+    /// 0 restores the game default (60); otherwise 1..=100.
+    MaxFps {
+        fps: u8,
+    },
+    /// 0..=100.
+    Volume {
+        percent: u8,
+    },
+    /// low, medium, high or best.
+    Quality {
+        quality: String,
+    },
+    /// False drops real keyboard/mouse input to the game; injected input stays.
+    UserInput {
+        enabled: bool,
+    },
 }
 
 /// Uniform connection/bridge health, with implementation-specific details

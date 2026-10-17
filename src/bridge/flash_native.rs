@@ -122,6 +122,33 @@ impl GameClient for FlashNativeClient {
     fn game_command(&self, command: &GameCommand) -> Result<ActionResult> {
         self.inner.game_command(command)
     }
+    fn move_hero(&self, x: i32, y: i32) -> Result<ActionResult> {
+        self.inner.move_hero(x, y)
+    }
+    fn stop_hero(&self) -> Result<ActionResult> {
+        self.inner.stop_hero()
+    }
+    fn select_target(&self, entity_id: i32, attack: bool) -> Result<ActionResult> {
+        self.inner.select_target(entity_id, attack)
+    }
+    fn deselect_target(&self) -> Result<ActionResult> {
+        self.inner.deselect_target()
+    }
+    fn collect(&self, entity_id: i32, at: Option<(i32, i32)>) -> Result<ActionResult> {
+        self.inner.collect(entity_id, at)
+    }
+    fn send_key(&self, virtual_key: u32, action: crate::KeyAction) -> Result<()> {
+        self.inner.send_key(virtual_key, action)
+    }
+    fn send_mouse(&self, action: crate::MouseAction, x: i32, y: i32) -> Result<()> {
+        self.inner.send_mouse(action, x, y)
+    }
+    fn set_window(&self, command: crate::WindowCommand) -> Result<()> {
+        self.inner.set_window(command)
+    }
+    fn reload_client(&self) -> Result<()> {
+        self.inner.reload_client()
+    }
 }
 
 #[cfg(test)]

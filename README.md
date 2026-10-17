@@ -193,6 +193,42 @@ are never retried automatically. `FlashClient::set_window_visible` and
 See the sibling client's README for build/runtime requirements and measured
 validation. This backend uses snapshots, not the native Ruffle shared mapping.
 
+### In-process Flash (Windows)
+
+`start_flash_inproc(&FlashInProcConfig)` loads `xenomit_flash.dll` from the
+sibling client into this process and starts Flash on the DLL's own STA thread,
+the way DarkBot hosts InProcessPlayer. The config carries the same six bootstrap
+records as the exe's stdin contract (movie, base URL, SID, FlashVars, width,
+height) plus the launch options; nothing reaches the command line.
+`FlashInProcClient` then calls the DLL directly:
+
+- no pipe, no per-call connection and no global request lock, so status and
+  LiveFrame reads never queue behind in-flight frame calls;
+- the native LiveFrame is the host's own memory, read with the existing
+  seqlock decoder through `LiveStateReader::from_raw`;
+- status is a plain struct (`FlashHostStatus`), exposed with the pipe's
+  STATUS keys plus network health (`game_recv_age_ms`, `game_socket`), CPU
+  and working set.
+
+The DLL is found through `XENOMIT_FLASH_DLL`, beside the executable, or in a
+sibling `xenomit-flash-client/build` directory. One host runs per process;
+dropping the client stops it and a later start is allowed (relogin). A Flash
+crash ends the process, so the exe remains the isolated alternative.
+
+`GameClient` gained direct actions with `Unavailable` defaults: `move_hero`,
+`stop_hero`, `select_target`, `deselect_target`, `collect`, `send_key`,
+`send_mouse`, `set_window` and `reload_client`. The in-process client runs them
+through the DLL exports; `FlashClient` uses the reflected calls the runtime
+already sends where an exact equivalent exists and the new pipe verbs
+otherwise. `FlashInProcClient` also offers `move_hero_async`/`take_result`,
+`capabilities`, `set_blocking_patterns`, `clear_cache`, `trim_memory`,
+`send_text`, `paste_text` and guarded `read_memory`/`query_bytes`.
+
+`cargo run --release --example flash_inproc_smoke -- --movie <swf>` (or
+`--stdin` with a piped bootstrap) starts the host in-process and benchmarks
+status, LiveFrame, immediate and frame calls; `--compare-pipe <pid>` measures
+an exe host for comparison.
+
 ### Authentic Flash on Linux
 
 `connect_flash_native(pid)` is the Linux entry point. Unscoped snapshots and

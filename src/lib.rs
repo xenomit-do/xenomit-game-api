@@ -11,6 +11,10 @@
 //!   (`STATE`, `INSPECT`, `INVOKE`, `FINVOKE`) over the named pipe. Each
 //!   request runs on the player thread and stalls the game — kept for
 //!   compatibility with old clients and for diagnostics.
+//!
+//! The authentic Flash host connects through `connect_flash` /
+//! `connect_flash_native` (out-of-process exe, pipe) or runs inside this
+//! process through `start_flash_inproc` (`xenomit_flash.dll`, direct calls).
 
 use std::sync::Arc;
 
@@ -34,14 +38,16 @@ pub use behavior::{
     SettingDescriptor, SettingKind, set_setting_value, setting_value,
 };
 pub use bridge::{
-    BridgeTransport, FlashClient, FlashNativeClient, LegacyPipeClient, NamedPipeTransport,
-    NativeClient,
+    BridgeTransport, FlashClient, FlashHostStatus, FlashInProcClient, FlashInProcConfig,
+    FlashLogSink, FlashNativeClient, LegacyPipeClient, NamedPipeTransport, NativeClient,
+    set_flash_log_sink,
 };
 pub use error::{ApiError, Result};
 pub use live::{LiveEntity, LiveFrame, LiveHero, LiveKind, LiveMap, LiveStateReader};
 pub use model::{
     ActionResult, Bounds, CallTiming, ClientBackend, ClientStatus, EntityCategory, FunctionCall,
-    GameClient, GameEntity, GameMapInfo, GameSnapshot, Inspection, Point, SafePlace, StageInfo,
+    GameClient, GameEntity, GameMapInfo, GameSnapshot, Inspection, KeyAction, MouseAction, Point,
+    SafePlace, StageInfo, WindowCommand,
 };
 
 /// Connect a [`GameClient`] for a running xenomit-client process.
@@ -69,4 +75,13 @@ pub fn connect_flash(pid: u32) -> Result<Arc<dyn GameClient>> {
 /// protocol: the Windows pipe, or `/tmp/xenomit_flash_<pid>.sock` on Linux.
 pub fn connect_flash_native(pid: u32) -> Result<Arc<dyn GameClient>> {
     FlashNativeClient::connect(pid).map(|client| Arc::new(client) as Arc<dyn GameClient>)
+}
+
+/// Host Flash inside this process through `xenomit_flash.dll`, the way
+/// DarkBot hosts InProcessPlayer: direct calls, no pipe, and the native LiveFrame
+/// read from the host's own memory. Windows x64 only; one host per process.
+/// The DLL is found through `XENOMIT_FLASH_DLL`, beside the executable, or in
+/// a sibling `xenomit-flash-client/build` directory.
+pub fn start_flash_inproc(config: &FlashInProcConfig) -> Result<Arc<FlashInProcClient>> {
+    FlashInProcClient::start(config).map(Arc::new)
 }
